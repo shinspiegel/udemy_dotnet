@@ -6,6 +6,9 @@
 # IDE-specific folders and files
 .vscode
 
+# Local database
+*.db
+
 # User-specific files
 *.rsuser
 *.suo
