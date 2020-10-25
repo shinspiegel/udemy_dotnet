@@ -8,6 +8,7 @@
 
 # Local database
 *.db
+Migrations
 
 # User-specific files
 *.rsuser
