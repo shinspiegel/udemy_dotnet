@@ -1,7 +1,8 @@
-# This is a little playground
+# The DotNet Core
 
-I was trying to understand and create a little API from Udemy content. Everything I did learn from that course was applying on this simples backend API.
+To run this project you need the [dotNet Core]() and [AspNet Core]() installed to run it.
 
-I have a long run to learn everything on this framework, still I'm liking very much all the new stuff and the way of doing thing on the dotnet.
+## Things to do before start:
 
-Hope you like it, any questions send me a DM on twitter.
+-   [x] Add entity framework: `dotnet tool install --global dotnet-ef`
+-   [x] Update local database: `dotnet ef database update`
