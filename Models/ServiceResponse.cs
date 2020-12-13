@@ -1,4 +1,4 @@
-namespace dotnet_rpg.Models
+namespace udemy_dotnet_rpg.Models
 {
     public class ServiceResponse<T>
     {

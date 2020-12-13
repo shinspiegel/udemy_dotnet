@@ -1,8 +1,8 @@
 using AutoMapper;
-using dotnet_rpg.Dtos.Character;
-using dotnet_rpg.Models;
+using udemy_dotnet_rpg.Dtos.Character;
+using udemy_dotnet_rpg.Models;
 
-namespace dotnet_rpg
+namespace udemy_dotnet_rpg
 {
   public class AutoMapperProfile : Profile
   {
