@@ -7,6 +7,8 @@ using udemy_dotnet_rpg.Database;
 using udemy_dotnet_rpg.Dtos.Character;
 using udemy_dotnet_rpg.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace udemy_dotnet_rpg.Services.CharacterService
 {
@@ -14,13 +16,16 @@ namespace udemy_dotnet_rpg.Services.CharacterService
     {
         private readonly IMapper mapper;
         private readonly DataContext context;
+        private readonly IHttpContextAccessor request;
 
-        public CharacterService(IMapper mapper, DataContext context)
+        public CharacterService(IMapper mapper, DataContext context, IHttpContextAccessor request)
         {
+            this.request = request;
             this.context = context;
             this.mapper = mapper;
         }
 
+        
         public async Task<ServiceResponse<List<GetCharacterDto>>> Add(AddCharacterDto newCharacter)
         {
             ServiceResponse<List<GetCharacterDto>> serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
@@ -35,11 +40,11 @@ namespace udemy_dotnet_rpg.Services.CharacterService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<GetCharacterDto>>> GetAll(int userId)
+        public async Task<ServiceResponse<List<GetCharacterDto>>> GetAll()
         {
             ServiceResponse<List<GetCharacterDto>> serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
 
-            List<Character> dbCharacter = await this.context.Characters.Where(c => c.User.Id == userId).ToListAsync();
+            List<Character> dbCharacter = await this.context.Characters.Where(c => c.User.Id == this.GetUserId()).ToListAsync();
             serviceResponse.Data = (dbCharacter.Select(c => this.mapper.Map<GetCharacterDto>(c))).ToList();
 
             return serviceResponse;
@@ -104,6 +109,10 @@ namespace udemy_dotnet_rpg.Services.CharacterService
             }
 
             return serviceResponse;
+        }
+
+        private int GetUserId() {
+            return int.Parse(this.request.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
         }
     }
 }
