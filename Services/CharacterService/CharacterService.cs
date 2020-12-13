@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using dotnet_rpg.Database;
-using dotnet_rpg.Dtos.Character;
-using dotnet_rpg.Models;
+using udemy_dotnet_rpg.Database;
+using udemy_dotnet_rpg.Dtos.Character;
+using udemy_dotnet_rpg.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace dotnet_rpg.Services.CharacterService
+namespace udemy_dotnet_rpg.Services.CharacterService
 {
     public class CharacterService : ICharacterService
     {
@@ -35,11 +35,11 @@ namespace dotnet_rpg.Services.CharacterService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<GetCharacterDto>>> GetAll()
+        public async Task<ServiceResponse<List<GetCharacterDto>>> GetAll(int userId)
         {
             ServiceResponse<List<GetCharacterDto>> serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
 
-            List<Character> dbCharacter = await this.context.Characters.ToListAsync();
+            List<Character> dbCharacter = await this.context.Characters.Where(c => c.User.Id == userId).ToListAsync();
             serviceResponse.Data = (dbCharacter.Select(c => this.mapper.Map<GetCharacterDto>(c))).ToList();
 
             return serviceResponse;

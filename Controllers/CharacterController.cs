@@ -1,13 +1,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using dotnet_rpg.Dtos.Character;
-using dotnet_rpg.Models;
-using dotnet_rpg.Services.CharacterService;
+using udemy_dotnet_rpg.Dtos.Character;
+using udemy_dotnet_rpg.Models;
+using udemy_dotnet_rpg.Services.CharacterService;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
-namespace dotnet_rpg.Controllers
+namespace udemy_dotnet_rpg.Controllers
 {
+
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class CharacterController : ControllerBase
@@ -22,7 +26,8 @@ namespace dotnet_rpg.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            ServiceResponse<List<GetCharacterDto>> response = await this.characterService.GetAll();
+            int id = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            ServiceResponse<List<GetCharacterDto>> response = await this.characterService.GetAll(id);
             return Ok(response);
         }
 
